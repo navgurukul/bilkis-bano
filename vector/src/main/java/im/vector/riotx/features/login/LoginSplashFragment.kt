@@ -29,7 +29,7 @@ class LoginSplashFragment @Inject constructor() : AbstractLoginFragment() {
 
     @OnClick(R.id.loginSplashSubmit)
     fun getStarted() {
-        loginViewModel.handle(LoginAction.PostViewEvent(LoginViewEvents.OpenServerSelection))
+        loginViewModel.handle(LoginAction.PostViewEvent(LoginViewEvents.OnSignModeSelected(SignMode.SignIn)))
     }
 
     override fun resetViewModel() {

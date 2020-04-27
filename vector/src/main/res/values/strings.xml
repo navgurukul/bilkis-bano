@@ -7,6 +7,8 @@
     <!-- NOTE TO TRANSLATORS: Value MUST have 4 letters and MUST be in this list: https://www.unicode.org/iso15924/iso15924-codes.html. Example:  "Arab", "Cyrl", "Latn", etc. -->
     <string name="resources_script">Latn</string>
 
+    <string name="empty_string"></string>
+
     <!-- theme -->
     <string name="light_theme">Light Theme</string>
     <string name="dark_theme">Dark Theme</string>
@@ -1659,7 +1661,8 @@ Why choose Element?
     <string name="keys_backup_unable_to_get_keys_backup_data">"An error occurred getting keys backup data"</string>
 
     <string name="alpha_disclaimer_title">Welcome to the beta!</string>
-    <string name="alpha_disclaimer_content_line_1">"While Element is in early development, some features may be missing and you may experience bugs."</string>
+
+    <string name="alpha_disclaimer_content_line_1">"Bol is in early development, some features may be missing and you may experience bugs."</string>
     <!-- The parameter will be replaced by the value of string alpha_disclaimer_content_line_2_gplay_colored_part -->
     <string name="alpha_disclaimer_content_line_2_gplay">"The latest feature list is always in the %1$s, and if you find bugs please submit a report in the top left menu of Home, and we’ll fix them as quickly as we can."</string>
     <string name="alpha_disclaimer_content_line_2_gplay_colored_part">"Play Store description"</string>
@@ -1765,7 +1768,7 @@ Not all features in Riot are implemented in Element yet. Main missing (and comin
 
     <string name="link_copied_to_clipboard">Link copied to clipboard</string>
 
-    <string name="add_by_matrix_id">Add by matrix ID</string>
+    <string name="add_by_matrix_id">Add a new User</string>
     <string name="creating_direct_room">"Creating room…"</string>
     <string name="direct_room_no_known_users">"No result found, use Add by matrix ID to search on server."</string>
     <string name="direct_room_start_search">"Start typing to get results"</string>
@@ -1904,11 +1907,12 @@ Not all features in Riot are implemented in Element yet. Main missing (and comin
     <string name="room_join_rules_invite_by_you">You made the room invite only.</string>
     <string name="timeline_unread_messages">Unread messages</string>
 
-    <string name="login_splash_title">It\'s your conversation. Own it.</string>
-    <string name="login_splash_text1">Chat with people directly or in groups</string>
-    <string name="login_splash_text2">Keep conversations private with encryption</string>
-    <string name="login_splash_text3">Extend &amp; customise your experience</string>
-    <string name="login_splash_submit">Get started</string>
+    <string name="login_splash_title">Bol by Navgurukul</string>
+    <string name="login_splash_text1">Chat with other students, volunteers and team members</string>
+    <string name="login_splash_text2">Learn together and have fun</string>
+    <string name="login_splash_text3">Stay in touch</string>
+    <string name="login_splash_submit">Start Now</string>
+
 
     <string name="login_server_title">Select a server</string>
     <string name="login_server_text">Just like email, accounts have one home, although you can talk to anyone</string>

@@ -130,7 +130,7 @@ class LoginFragment @Inject constructor() : AbstractLoginFragment() {
         loginFieldTil.hint = getString(when (state.signMode) {
             SignMode.Unknown            -> error("developer error")
             SignMode.SignUp             -> R.string.login_signup_username_hint
-            SignMode.SignIn             -> R.string.login_signin_username_hint
+            SignMode.SignIn             -> R.string.empty_string
             SignMode.SignInWithMatrixId -> R.string.login_signin_matrix_id_hint
         })
 
@@ -164,7 +164,7 @@ class LoginFragment @Inject constructor() : AbstractLoginFragment() {
                 ServerType.Other     -> {
                     loginServerIcon.isVisible = false
                     loginTitle.text = getString(resId, state.homeServerUrl.toReducedUrl())
-                    loginNotice.text = getString(R.string.login_server_other_text)
+                    loginNotice.text = getString(R.string.empty_string)
                 }
                 ServerType.Unknown   -> Unit /* Should not happen */
             }

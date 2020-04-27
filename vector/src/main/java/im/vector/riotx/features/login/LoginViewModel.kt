@@ -18,6 +18,7 @@ package im.vector.riotx.features.login
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import com.airbnb.mvrx.ActivityViewModelContext
 import com.airbnb.mvrx.Fail
@@ -404,15 +405,6 @@ class LoginViewModel @AssistedInject constructor(
                     serverType = action.serverType
             )
         }
-
-        when (action.serverType) {
-            ServerType.Unknown   -> Unit /* Should not happen */
-            ServerType.MatrixOrg ->
-                // Request login flow here
-                handle(LoginAction.UpdateHomeServer(matrixOrgUrl))
-            ServerType.Modular,
-            ServerType.Other     -> _viewEvents.post(LoginViewEvents.OnServerSelectionDone(action.serverType))
-        }.exhaustive
     }
 
     private fun handleInitWith(action: LoginAction.InitWith) {
@@ -746,9 +738,11 @@ class LoginViewModel @AssistedInject constructor(
                                         asyncHomeServerLoginFlowRequest = Uninitialized,
                                         homeServerUrl = data.homeServerUrl,
                                         loginMode = loginMode,
+                                        signMode = SignMode.SignIn,
                                         loginModeSupportedTypes = data.supportedLoginTypes.toList()
                                 )
                             }
+                            _viewEvents.post(LoginViewEvents.ShowLoginScreen)
                         }
                     }
                     is LoginFlowResult.OutdatedHomeserver -> {
@@ -757,9 +751,10 @@ class LoginViewModel @AssistedInject constructor(
                 }
             }
 
-            private fun notSupported() {
-                // Notify the UI
-                _viewEvents.post(LoginViewEvents.OutdatedHomeserver)
+
+                private fun notSupported() {
+                    // Notify the UI
+                    _viewEvents.post(LoginViewEvents.OutdatedHomeserver)
 
                 setState {
                     copy(

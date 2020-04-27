@@ -18,6 +18,7 @@ package im.vector.riotx.features.login
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
@@ -47,6 +48,9 @@ import im.vector.riotx.features.login.terms.LoginTermsFragment
 import im.vector.riotx.features.login.terms.LoginTermsFragmentArgument
 import im.vector.riotx.features.login.terms.toLocalizedLoginTerms
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -110,6 +114,7 @@ open class LoginActivity : VectorBaseActivity(), ToolbarConfigurable {
         addFragment(R.id.loginFragmentContainer, LoginSplashFragment::class.java)
     }
 
+    @Suppress("IMPLICIT_CAST_TO_ANY")
     private fun handleLoginViewEvents(loginViewEvents: LoginViewEvents) {
         when (loginViewEvents) {
             is LoginViewEvents.RegistrationFlowResult                     -> {
@@ -152,7 +157,7 @@ open class LoginActivity : VectorBaseActivity(), ToolbarConfigurable {
                             // ft.setCustomAnimations(enterAnim, exitAnim, popEnterAnim, popExitAnim)
                         })
             is LoginViewEvents.OnServerSelectionDone                      -> onServerSelectionDone(loginViewEvents)
-            is LoginViewEvents.OnSignModeSelected                         -> onSignModeSelected(loginViewEvents)
+            is LoginViewEvents.OnSignModeSelected                         -> onSignModeSelected()
             is LoginViewEvents.OnLoginFlowRetrieved                       ->
                 addFragmentToBackstack(R.id.loginFragmentContainer,
                         if (loginViewEvents.isSso) {
@@ -194,6 +199,10 @@ open class LoginActivity : VectorBaseActivity(), ToolbarConfigurable {
                         LoginGenericTextInputFormFragmentArgument(TextInputFormFragmentMode.ConfirmMsisdn, true, loginViewEvents.msisdn),
                         tag = FRAGMENT_REGISTRATION_STAGE_TAG,
                         option = commonOption)
+            is LoginViewEvents.ShowLoginScreen -> addFragmentToBackstack(R.id.loginFragmentContainer,
+                    LoginFragment::class.java,
+                    tag = FRAGMENT_LOGIN_TAG,
+                    option = commonOption)
             is LoginViewEvents.Failure,
             is LoginViewEvents.Loading                                    ->
                 // This is handled by the Fragments
@@ -239,30 +248,9 @@ open class LoginActivity : VectorBaseActivity(), ToolbarConfigurable {
         }
     }
 
-    private fun onSignModeSelected(loginViewEvents: LoginViewEvents.OnSignModeSelected) = withState(loginViewModel) { state ->
-        // state.signMode could not be ready yet. So use value from the ViewEvent
-        when (loginViewEvents.signMode) {
-            SignMode.Unknown            -> error("Sign mode has to be set before calling this method")
-            SignMode.SignUp             -> {
-                // This is managed by the LoginViewEvents
-            }
-            SignMode.SignIn             -> {
-                // It depends on the LoginMode
-                when (state.loginMode) {
-                    LoginMode.Unknown,
-                    LoginMode.Sso         -> error("Developer error")
-                    LoginMode.Password    -> addFragmentToBackstack(R.id.loginFragmentContainer,
-                            LoginFragment::class.java,
-                            tag = FRAGMENT_LOGIN_TAG,
-                            option = commonOption)
-                    LoginMode.Unsupported -> onLoginModeNotSupported(state.loginModeSupportedTypes)
-                }.exhaustive
-            }
-            SignMode.SignInWithMatrixId -> addFragmentToBackstack(R.id.loginFragmentContainer,
-                    LoginFragment::class.java,
-                    tag = FRAGMENT_LOGIN_TAG,
-                    option = commonOption)
-        }.exhaustive
+    private fun onSignModeSelected() = withState(loginViewModel) {
+            loginViewModel.handle(LoginAction.UpdateServerType(ServerType.Other));
+            loginViewModel.handle(LoginAction.UpdateHomeServer("https://m.navgurukul.org"));
     }
 
     /**
