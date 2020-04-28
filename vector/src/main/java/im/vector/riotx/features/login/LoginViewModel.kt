@@ -564,9 +564,11 @@ class LoginViewModel @AssistedInject constructor(@Assisted initialState: LoginVi
                                             asyncHomeServerLoginFlowRequest = Uninitialized,
                                             homeServerUrl = data.homeServerUrl,
                                             loginMode = loginMode,
+                                            signMode = SignMode.SignIn,
                                             loginModeSupportedTypes = data.loginFlowResponse.flows.mapNotNull { it.type }.toList()
                                     )
                                 }
+                                _viewEvents.post(LoginViewEvents.ShowLoginScreen)
                             }
                         }
                         is LoginFlowResult.OutdatedHomeserver -> {

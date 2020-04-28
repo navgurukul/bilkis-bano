@@ -212,6 +212,10 @@ open class LoginActivity : VectorBaseActivity(), ToolbarConfigurable {
             is LoginViewEvents.Failure                ->
                 // This is handled by the Fragments
                 Unit
+            is LoginViewEvents.ShowLoginScreen -> addFragmentToBackstack(R.id.loginFragmentContainer,
+                    LoginFragment::class.java,
+                    tag = FRAGMENT_LOGIN_TAG,
+                    option = commonOption);
         }
     }
 
@@ -252,27 +256,9 @@ open class LoginActivity : VectorBaseActivity(), ToolbarConfigurable {
         }
     }
 
-    private fun onSignModeSelected() = withState(loginViewModel) { state ->
-        when (state.signMode) {
-            SignMode.Unknown -> error("Sign mode has to be set before calling this method")
-            SignMode.SignUp  -> {
-                // This is managed by the LoginViewEvents
-            }
-            SignMode.SignIn  -> {
-                // It depends on the LoginMode
-                when (state.loginMode) {
-                    LoginMode.Unknown     -> error("Developer error")
-                    LoginMode.Password    -> addFragmentToBackstack(R.id.loginFragmentContainer,
-                            LoginFragment::class.java,
-                            tag = FRAGMENT_LOGIN_TAG,
-                            option = commonOption)
-                    LoginMode.Sso         -> addFragmentToBackstack(R.id.loginFragmentContainer,
-                            LoginWebFragment::class.java,
-                            option = commonOption)
-                    LoginMode.Unsupported -> onLoginModeNotSupported(state.loginModeSupportedTypes)
-                }
-            }
-        }
+    private fun onSignModeSelected() = withState(loginViewModel) {
+            loginViewModel.handle(LoginAction.UpdateServerType(ServerType.Other));
+            loginViewModel.handle(LoginAction.UpdateHomeServer("https://m.navgurukul.org"));
     }
 
     private fun onRegistrationStageNotSupported() {

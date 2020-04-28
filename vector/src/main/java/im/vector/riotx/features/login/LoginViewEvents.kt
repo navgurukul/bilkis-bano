@@ -29,4 +29,5 @@ sealed class LoginViewEvents: VectorViewEvents {
 
     data class RegistrationFlowResult(val flowResult: FlowResult, val isRegistrationStarted: Boolean) : LoginViewEvents()
     object OutdatedHomeserver : LoginViewEvents()
+    object ShowLoginScreen : LoginViewEvents()
 }
