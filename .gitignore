@@ -1,9 +1,10 @@
+google-services.json
 *jks
 *pepk
 *.iml
 .gradle
 /local.properties
-# idea files: exclude everything except dictionnaries
+# idea files: exclude everything xcept dictionnaries
 .idea/caches
 .idea/libraries
 .idea/inspectionProfiles
