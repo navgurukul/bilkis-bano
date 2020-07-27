@@ -14,12 +14,12 @@
      -->
 
     <!-- Note: pusher_http_url should have path '/_matrix/push/v1/notify' -->
-    <string name="pusher_http_url" translatable="false">https://matrix.org/_matrix/push/v1/notify</string>
+    <string name="pusher_http_url" translatable="false">https://m.navgurukul.org/pushgateway/_matrix/push/v1/notify</string>
     <!-- Note: pusher_app_id cannot exceed 64 chars -->
-    <string name="pusher_app_id" translatable="false">im.vector.app.android</string>
+    <string name="pusher_app_id" translatable="false">org.navgurukul.bol</string>
 
     <string-array name="room_directory_servers" translatable="false">
-        <item>matrix.org</item>
+        <item>m.navgurukul.org</item>
     </string-array>
 
 </resources>
